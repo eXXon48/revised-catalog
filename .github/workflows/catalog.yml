@@ -104,7 +104,7 @@ jobs:
           # the daemon at the pinned store rev must embed the same root this catalog is checked against
           [ -f bin/root.pub ] || { echo "::error::pinned store rev has no daemon/trust/root.pub"; exit 1; }
           cmp -s bin/root.pub trust/root.pub || { echo "::error::trust/root.pub differs from daemon/trust/root.pub at RVP_STORE_REV"; exit 1; }
-          key=$(mktemp); pub=$(mktemp)
+          key=$(mktemp); pub=$(mktemp); rm -f "$pub"  # minisign -R refuses an existing file
           trap 'shred -u "$key"; rm -f "$pub"' EXIT
           printf '%s\n' "$RELEASE_MINISIGN_KEY" >"$key"
           # public half from the secret key; it must be listed in the root-signed keys.json
