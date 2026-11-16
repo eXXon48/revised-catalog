@@ -30,7 +30,7 @@ tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
 now=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 seq=$(date -u +%s)
-allow='["title","subtitle","description","icon","screenshots","permissions","changes"]'
+allow='["title","subtitle","description","icon","screenshots","permissions","changes","devOnly"]'
 : >"$tmp/entries.jsonl"
 seen=" "
 
@@ -81,8 +81,10 @@ while read -r spec sha rest || [ -n "$spec" ]; do
             || { echo "$meta: must be a JSON object using only: $allow" >&2; exit 1; }
         jq -e 'all(.title, .subtitle, .description; . == null or type == "string")
             and all(.screenshots, .permissions, .changes; . == null or type == "array")
-            and (.icon | . == null or type == "string" or type == "object")' "$meta" >/dev/null             || { echo "$meta ($name): title/subtitle/description must be strings, screenshots/permissions/changes arrays, icon a string, object or null" >&2; exit 1; }
-        jq -cs '.[0] * .[1]' "$tmp/base.json" "$meta" >>"$tmp/entries.jsonl"
+            and (.icon | . == null or type == "string" or type == "object")
+            and (.devOnly | . == null or type == "boolean")' "$meta" >/dev/null             || { echo "$meta ($name): title/subtitle/description must be strings, screenshots/permissions/changes arrays, icon a string, object or null, devOnly a boolean" >&2; exit 1; }
+        # devOnly only when true (absent = false in the daemon)
+        jq -cs '.[0] * (.[1] | if .devOnly == true then . else del(.devOnly) end)' "$tmp/base.json" "$meta" >>"$tmp/entries.jsonl"
     else
         cat "$tmp/base.json" >>"$tmp/entries.jsonl"
     fi
