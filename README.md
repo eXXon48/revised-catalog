@@ -7,7 +7,7 @@ Catalog of CMU-Revised packages.
 1. A package repo tag `vN` triggers its CI, which builds an UNSIGNED `.rvp` and publishes it as a GitHub Release (exactly one `.rvp` asset).
 2. A PR to this repo adds a `repo@tag sha256` line to `catalog.list` (the sha256 of that `.rvp`).
 3. A same-repo PR (fork PRs are skipped: no secrets) runs a dry-run: `tools/build.sh` with throwaway keys. It downloads each listed release, checks the hash, signs, and verifies the result. The output is uploaded as an artifact; nothing real is signed.
-4. After merge to `main`, the `release` job (GitHub Environment `release`) does the same with the real release key: it signs every package core, builds `catalog.json`, signs it, and uploads `out/`. Deploy to cmu-revised.com is not part of this repo yet.
+4. Every push to `main` runs the dry-run again. Publishing is manual: Actions → catalog → Run workflow on `main` with `dry_run` unticked. The `release` job (GitHub Environment `release`, owner approval) then does the same with the real release key: it signs every package core, builds `catalog.json`, signs it, and uploads `out/`. Deploy to cmu-revised.com is not part of this repo yet.
 
 Optional `meta/<name>.json` (a JSON object) overrides or adds only these entry fields: `title`, `subtitle`, `description`, `icon`, `screenshots`, `permissions`, `changes`. Any other key aborts the build.
 

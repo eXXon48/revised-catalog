@@ -51,7 +51,7 @@ jobs:
 
   dry-run:
     needs: tools
-    if: github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch' && inputs.dry_run)
+    if: github.event_name == 'pull_request' || github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.dry_run)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -76,7 +76,7 @@ jobs:
 
   release:
     needs: tools
-    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && !inputs.dry_run)
+    if: github.event_name == 'workflow_dispatch' && !inputs.dry_run   # publish only by hand: Run workflow, dry_run unticked
     runs-on: ubuntu-latest
     environment: release
     steps:
