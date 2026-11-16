@@ -37,12 +37,16 @@ jobs:
           persist-credentials: false
       - name: Build rvp tools
         run: cargo build --release --locked --bin rvp-pack --bin rvp-verify
+      - name: Stage tools and the pinned rev's root key
+        run: |
+          mkdir art
+          cp target/release/rvp-pack target/release/rvp-verify art/
+          # absent at revs before the owner root is embedded: the release job then fails with a clear error
+          cp daemon/trust/root.pub art/ || true
       - uses: actions/upload-artifact@v4
         with:
           name: rvp-tools
-          path: |
-            target/release/rvp-pack
-            target/release/rvp-verify
+          path: art/
           if-no-files-found: error
 
   dry-run:
@@ -61,7 +65,7 @@ jobs:
           path: bin
       - name: Dry-run build (throwaway keys)
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.STORE_READ_TOKEN || github.token }}
         run: |
           chmod +x bin/rvp-pack bin/rvp-verify
           RVP_BIN=$PWD/bin tools/dry-run.sh out
@@ -92,11 +96,14 @@ jobs:
           path: bin
       - name: Build and sign catalog
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.STORE_READ_TOKEN || github.token }}
           RELEASE_MINISIGN_KEY: ${{ secrets.REVISED_RELEASE_MINISIGN_KEY }}
           MINISIGN_PW: ${{ secrets.REVISED_RELEASE_MINISIGN_PW }}
         run: |
           chmod +x bin/rvp-pack bin/rvp-verify
+          # the daemon at the pinned store rev must embed the same root this catalog is checked against
+          [ -f bin/root.pub ] || { echo "::error::pinned store rev has no daemon/trust/root.pub"; exit 1; }
+          cmp -s bin/root.pub trust/root.pub || { echo "::error::trust/root.pub differs from daemon/trust/root.pub at RVP_STORE_REV"; exit 1; }
           key=$(mktemp); pub=$(mktemp)
           trap 'shred -u "$key"; rm -f "$pub"' EXIT
           printf '%s\n' "$RELEASE_MINISIGN_KEY" >"$key"

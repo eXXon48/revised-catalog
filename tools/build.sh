@@ -34,7 +34,7 @@ allow='["title","subtitle","description","icon","screenshots","permissions","cha
 : >"$tmp/entries.jsonl"
 seen=" "
 
-while read -r spec sha rest; do
+while read -r spec sha rest || [ -n "$spec" ]; do
     case "$spec" in ''|'#'*) continue ;; esac
     [ -z "$rest" ] || { echo "bad catalog.list line: $spec $sha $rest" >&2; exit 1; }
     case "$spec" in */*@*) ;; *) echo "bad spec (want owner/repo@tag): $spec" >&2; exit 1 ;; esac
@@ -79,6 +79,9 @@ while read -r spec sha rest; do
     if [ -f "$meta" ]; then
         jq -e --argjson ok "$allow" 'type == "object" and ((keys - $ok) | length == 0)' "$meta" >/dev/null \
             || { echo "$meta: must be a JSON object using only: $allow" >&2; exit 1; }
+        jq -e 'all(.title, .subtitle, .description; . == null or type == "string")
+            and all(.screenshots, .permissions, .changes; . == null or type == "array")
+            and (.icon | . == null or type == "string" or type == "object")' "$meta" >/dev/null             || { echo "$meta ($name): title/subtitle/description must be strings, screenshots/permissions/changes arrays, icon a string, object or null" >&2; exit 1; }
         jq -cs '.[0] * .[1]' "$tmp/base.json" "$meta" >>"$tmp/entries.jsonl"
     else
         cat "$tmp/base.json" >>"$tmp/entries.jsonl"
