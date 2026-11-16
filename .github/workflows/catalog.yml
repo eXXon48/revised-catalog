@@ -23,37 +23,62 @@ env:
   RVP_STORE_REV: 7cf330820db4d48fc03308320d10401a59b8e445
 
 jobs:
-  dry-run:
-    if: github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch' && inputs.dry_run)
+  # Runs no code from this repo: only the pinned store rev, so a PR cannot read STORE_READ_TOKEN.
+  # Fork PRs get no secrets, so they are skipped (same-repo PRs only).
+  tools:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Install minisign
-        run: sudo apt-get update && sudo apt-get install -y minisign
       - uses: actions/checkout@v4
         with:
           repository: eXXon48/cmu-re-store
           ref: ${{ env.RVP_STORE_REV }}
           token: ${{ secrets.STORE_READ_TOKEN }}
-          path: store
+          persist-credentials: false
       - name: Build rvp tools
-        run: cargo build --release --locked --manifest-path store/Cargo.toml --bin rvp-pack --bin rvp-verify
+        run: cargo build --release --locked --bin rvp-pack --bin rvp-verify
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rvp-tools
+          path: |
+            target/release/rvp-pack
+            target/release/rvp-verify
+          if-no-files-found: error
+
+  dry-run:
+    needs: tools
+    if: github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch' && inputs.dry_run)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install minisign
+        run: sudo apt-get update && sudo apt-get install -y minisign
+      - uses: actions/download-artifact@v4
+        with:
+          name: rvp-tools
+          path: bin
       - name: Dry-run build (throwaway keys)
         env:
-          RVP_BIN: ${{ github.workspace }}/store/target/release
           GH_TOKEN: ${{ github.token }}
-        run: tools/dry-run.sh out
+        run: |
+          chmod +x bin/rvp-pack bin/rvp-verify
+          RVP_BIN=$PWD/bin tools/dry-run.sh out
       - uses: actions/upload-artifact@v4
         with:
           name: catalog-dry-run
           path: out/
 
   release:
+    needs: tools
     if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && !inputs.dry_run)
     runs-on: ubuntu-latest
     environment: release
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Require trust material
         run: |
           for f in trust/root.pub trust/keys.json trust/keys.json.minisig; do
@@ -61,28 +86,24 @@ jobs:
           done
       - name: Install minisign
         run: sudo apt-get update && sudo apt-get install -y minisign
-      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
-          repository: eXXon48/cmu-re-store
-          ref: ${{ env.RVP_STORE_REV }}
-          token: ${{ secrets.STORE_READ_TOKEN }}
-          path: store
-      - name: Build rvp tools
-        run: cargo build --release --locked --manifest-path store/Cargo.toml --bin rvp-pack --bin rvp-verify
+          name: rvp-tools
+          path: bin
       - name: Build and sign catalog
         env:
-          RVP_BIN: ${{ github.workspace }}/store/target/release
           GH_TOKEN: ${{ github.token }}
-          RELEASE_KEY: ${{ secrets.RELEASE_KEY }}
-          MINISIGN_PW: ${{ secrets.RELEASE_KEY_PASSWORD }}
+          RELEASE_MINISIGN_KEY: ${{ secrets.REVISED_RELEASE_MINISIGN_KEY }}
+          MINISIGN_PW: ${{ secrets.REVISED_RELEASE_MINISIGN_PW }}
         run: |
+          chmod +x bin/rvp-pack bin/rvp-verify
           key=$(mktemp); pub=$(mktemp)
           trap 'shred -u "$key"; rm -f "$pub"' EXIT
-          printf '%s\n' "$RELEASE_KEY" >"$key"
+          printf '%s\n' "$RELEASE_MINISIGN_KEY" >"$key"
           # public half from the secret key; it must be listed in the root-signed keys.json
           printf '%s\n' "$MINISIGN_PW" | minisign -R -s "$key" -p "$pub" >/dev/null
           grep -qF "$(sed -n 2p "$pub")" trust/keys.json || { echo "::error::release key not listed in trust/keys.json"; exit 1; }
-          SIGN_KEY=$key SIGN_PUB=$pub TRUST_DIR=trust ROOT_PUB=trust/root.pub tools/build.sh out
+          RVP_BIN=$PWD/bin SIGN_KEY=$key SIGN_PUB=$pub TRUST_DIR=trust ROOT_PUB=trust/root.pub tools/build.sh out
       - uses: actions/upload-artifact@v4
         with:
           name: catalog
