@@ -22,7 +22,7 @@ permissions:
 
 env:
   # cmu-re-store rev that provides rvp-pack / rvp-verify
-  RVP_STORE_REV: 6fe7b71312624cbcd26d399aa0d23da52fe9ff0a
+  RVP_STORE_REV: 560831858105211f33074728c1f9becad7cf91f2
 
 jobs:
   # Runs no code from this repo: only the pinned store rev, so a PR cannot read STORE_READ_TOKEN.
