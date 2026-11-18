@@ -117,4 +117,15 @@ jobs:
         with:
           name: catalog
           path: out/
-      # Deploy to cmu-revised.com: S6, not here.
+      # dl bucket (R2) + api registry; secrets set by the owner in Environment `release`. aws cli is preinstalled.
+      - name: Publish (R2 upload + POST ci/releases)
+        env:
+          API: https://api.cmu-revised.com/v1
+          DL_BASE: https://dl.cmu-revised.com
+          CI_TOKEN: ${{ secrets.REVISED_API_CI_TOKEN }}
+          R2_BUCKET: revised-pkgs
+          R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+        run: tools/publish.sh out

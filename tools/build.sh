@@ -9,7 +9,8 @@
 #   ROOT_PUB   root public key file for the final check (default: trust/root.pub)
 #   Needs jq, minisign, tar.
 #   GH_TOKEN   for `gh release download`
-# Output: <out>/{catalog.json,catalog.json.minisig,keys.json,keys.json.minisig,pkgs/*.rvp}
+# Output: <out>/{catalog.json,keys.json,keys.json.minisig,pkgs/*.rvp}; catalog.json is the unsigned
+# release list tools/publish.sh registers with the api (units never read it)
 # Any failed check aborts (set -e); nothing is half-published because CI only uploads on success.
 set -eu
 [ $# -eq 1 ] || { echo "usage: $0 <out_dir>" >&2; exit 2; }
@@ -73,7 +74,7 @@ while read -r spec sha rest || [ -n "$spec" ]; do
     size=$(wc -c <"$out/$rvp" | tr -d ' ')
     jq -c --arg url "$rvp" --argjson size "$size" --arg h "$(cat "$tmp/c.hash")" '{
         name, version, title: .name, subtitle: (.description // ""), author: (.author // ""),
-        category: (.category // ""), depends: (.depends // ""), conflicts: (.conflicts // ""),
+        category: (.category // ""), targetCMU, depends: (.depends // ""), conflicts: (.conflicts // ""),
         url: $url, size: $size, core_blake2b: $h}' "$tmp/manifest.json" >"$tmp/base.json"
     meta=$repo/meta/$name.json
     if [ -f "$meta" ]; then
@@ -92,10 +93,8 @@ done <"$list"
 
 jq -s --argjson seq "$seq" --arg g "$now" '{format: 1, seq: $seq, generated: $g, packages: .}' "$tmp/entries.jsonl" >"$out/catalog.json"
 jq -e . "$out/catalog.json" >/dev/null
-sign "$out/catalog.json" "$out/catalog.json.minisig" "revised-approved $now"
 cp "$TRUST_DIR/keys.json" "$TRUST_DIR/keys.json.minisig" "$out/"
 
 # final checks (fail closed)
 minisign -V -p "$root_pub" -m "$out/keys.json" -x "$out/keys.json.minisig" >/dev/null
-minisign -V -p "$SIGN_PUB" -m "$out/catalog.json" -x "$out/catalog.json.minisig" >/dev/null
 echo "catalog seq $seq: $(jq ".packages | length" "$out/catalog.json") packages, all signatures verified"
