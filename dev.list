@@ -1,3 +1,4 @@
 # Dev overrides for catalog.list (used only on develop: dry-run + publish-dev).
 # Same format: repo@tag sha256. A line here replaces the catalog.list line of the same repo, or adds one.
 # The dev store build goes here, e.g.  eXXon48/cmu-re-store@dev/v0.7.0.1 <sha256 of its .rvp>
+eXXon48/cmu-re-store@dev/v0.7.0.1 e815d3b06103788b5d92652fb953b4fdb83a6b4fb1f49bc64795a036020cc2bd
