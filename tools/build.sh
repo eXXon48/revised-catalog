@@ -48,6 +48,8 @@ while read -r spec sha rest || [ -n "$spec" ]; do
     case "$spec" in ''|'#'*) continue ;; esac
     [ -z "$rest" ] || { echo "bad catalog.list line: $spec $sha $rest" >&2; exit 1; }
     case "$spec" in */*@*) ;; *) echo "bad spec (want owner/repo@tag): $spec" >&2; exit 1 ;; esac
+    # a dev/v* build embeds the dev root + hosts: never in a prod catalog
+    case "$spec" in *@dev/*) [ -n "${DEV_LIST-}" ] || { echo "dev build in a prod list: $spec" >&2; exit 1; } ;; esac
     case "$sha" in
         *[!0-9a-f]*|'') echo "bad sha256 for $spec" >&2; exit 1 ;;
     esac
