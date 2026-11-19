@@ -11,6 +11,10 @@ Catalog of CMU-Revised packages.
 
 Optional `meta/<name>.json` (a JSON object) overrides or adds only these entry fields: `title`, `subtitle`, `description`, `icon`, `screenshots`, `permissions`, `changes`, `devOnly` (boolean; true lists the package only in the store's Developer section and installs it only in developer mode). Any other key aborts the build.
 
+## Dev and prod
+
+`main` is prod (above). `develop` is dev: every push runs `publish-dev` (Environment `dev-release`, no approval), which builds with `dev.list` overriding `catalog.list` per repo, signs with the dev release key endorsed by `trust-dev/`, uploads to the `revised-pkgs-dev` bucket (`https://dl-dev.cmu-revised.com`) and registers with `https://dev-api.cmu-revised.com/v1`. `dev.list` must carry the dev store build (`eXXon48/cmu-re-store@dev/v…`): it embeds the dev root and dev hosts. Changes reach `main` by merging `develop`; `dev.list` and `trust-dev/` are ignored there.
+
 ## Keys
 
 Two tiers. The offline ROOT key signs `trust/keys.json`, the list of release keys. The RELEASE key signs every package and `catalog.json`; it exists only as a secret of the `release` Environment. Setup and rotation: [`trust/README.md`](trust/README.md).

@@ -9,9 +9,12 @@ on:
         type: boolean
         default: true
   push:
-    branches: [main]
+    # main: dry-run only (prod publish is manual); develop: dry-run + publish-dev
+    branches: [main, develop]
     paths:
       - catalog.list
+      - dev.list
+      - trust-dev/**
       - meta/**
       - trust/**
       - tools/**
@@ -22,7 +25,7 @@ permissions:
 
 env:
   # cmu-re-store rev that provides rvp-pack / rvp-verify
-  RVP_STORE_REV: 560831858105211f33074728c1f9becad7cf91f2
+  RVP_STORE_REV: 3c7f5bad14b981b8bffa896fa326f833f0165306
 
 jobs:
   # Runs no code from this repo: only the pinned store rev, so a PR cannot read STORE_READ_TOKEN.
@@ -45,6 +48,7 @@ jobs:
           cp target/release/rvp-pack target/release/rvp-verify art/
           # absent at revs before the owner root is embedded: the release job then fails with a clear error
           cp daemon/trust/root.pub art/ || true
+          cp daemon/trust/root-dev.pub art/ || true   # dev root, checked by publish-dev
       - uses: actions/upload-artifact@v4
         with:
           name: rvp-tools
@@ -68,6 +72,8 @@ jobs:
       - name: Dry-run build (throwaway keys)
         env:
           GH_TOKEN: ${{ secrets.STORE_READ_TOKEN || github.token }}
+          # on develop (push or PR into it) the list is the dev one
+          DEV_LIST: ${{ (github.ref == 'refs/heads/develop' || github.base_ref == 'develop') && 'dev.list' || '' }}
         run: |
           chmod +x bin/rvp-pack bin/rvp-verify
           RVP_BIN=$PWD/bin tools/dry-run.sh out
@@ -78,7 +84,8 @@ jobs:
 
   release:
     needs: tools
-    if: github.event_name == 'workflow_dispatch' && !inputs.dry_run   # publish only by hand: Run workflow, dry_run unticked
+    # publish only by hand, only from main: Run workflow on main, dry_run unticked
+    if: github.event_name == 'workflow_dispatch' && !inputs.dry_run && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment: release
     steps:
@@ -124,6 +131,64 @@ jobs:
           DL_BASE: https://dl.cmu-revised.com
           CI_TOKEN: ${{ secrets.REVISED_API_CI_TOKEN }}
           R2_BUCKET: revised-pkgs
+          R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+        run: tools/publish.sh out
+
+  # develop -> dev: dev root (trust-dev/), dev release key, dev api, bucket revised-pkgs-dev.
+  # Environment `dev-release` has no approval: every push to develop publishes. Same secret names as `release`.
+  publish-dev:
+    needs: tools
+    if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-latest
+    environment: dev-release
+    concurrency: { group: publish-dev, cancel-in-progress: false }
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Require dev trust material
+        run: |
+          for f in trust-dev/root.pub trust-dev/keys.json trust-dev/keys.json.minisig; do
+            [ -f "$f" ] || { echo "::error::$f missing: owner has not set up the dev keys yet"; exit 1; }
+          done
+          cmp -s trust-dev/root.pub trust/root.pub && { echo "::error::trust-dev/root.pub is the prod root"; exit 1; } || true
+          # without it the prod-built store (prod root + hosts) would land in the dev catalog
+          grep -q '^eXXon48/cmu-re-store@dev/v' dev.list || { echo "::error::dev.list has no eXXon48/cmu-re-store@dev/v* line"; exit 1; }
+      - name: Install minisign
+        run: sudo apt-get update && sudo apt-get install -y minisign
+      - uses: actions/download-artifact@v4
+        with:
+          name: rvp-tools
+          path: bin
+      - name: Build and sign dev catalog
+        env:
+          GH_TOKEN: ${{ secrets.STORE_READ_TOKEN || github.token }}
+          RELEASE_MINISIGN_KEY: ${{ secrets.REVISED_RELEASE_MINISIGN_KEY }}
+          MINISIGN_PW: ${{ secrets.REVISED_RELEASE_MINISIGN_PW }}
+        run: |
+          chmod +x bin/rvp-pack bin/rvp-verify
+          # the dev daemon at the pinned store rev must embed the same dev root
+          [ -f bin/root-dev.pub ] || { echo "::error::pinned store rev has no daemon/trust/root-dev.pub"; exit 1; }
+          cmp -s bin/root-dev.pub trust-dev/root.pub || { echo "::error::trust-dev/root.pub differs from daemon/trust/root-dev.pub at RVP_STORE_REV"; exit 1; }
+          key=$(mktemp); pub=$(mktemp); rm -f "$pub"  # minisign -R refuses an existing file
+          trap 'shred -u "$key"; rm -f "$pub"' EXIT
+          printf '%s\n' "$RELEASE_MINISIGN_KEY" >"$key"
+          printf '%s\n' "$MINISIGN_PW" | minisign -R -s "$key" -p "$pub" >/dev/null
+          grep -qF "$(sed -n 2p "$pub")" trust-dev/keys.json || { echo "::error::dev release key not listed in trust-dev/keys.json"; exit 1; }
+          DEV_LIST=dev.list RVP_BIN=$PWD/bin SIGN_KEY=$key SIGN_PUB=$pub TRUST_DIR=trust-dev ROOT_PUB=trust-dev/root.pub tools/build.sh out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: catalog-dev
+          path: out/
+      - name: Publish to dev (R2 upload + POST ci/releases)
+        env:
+          API: https://dev-api.cmu-revised.com/v1
+          DL_BASE: https://dl-dev.cmu-revised.com
+          CI_TOKEN: ${{ secrets.REVISED_API_CI_TOKEN }}
+          R2_BUCKET: revised-pkgs-dev
           R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
