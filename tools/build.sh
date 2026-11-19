@@ -7,6 +7,7 @@
 #   MINISIGN_PW  release key password (piped to minisign; empty = unencrypted key)
 #   TRUST_DIR  dir holding keys.json + keys.json.minisig (root-signed)
 #   ROOT_PUB   root public key file for the final check (default: trust/root.pub)
+#   DEV_LIST   dev build only: file whose lines override catalog.list per repo (dev.list)
 #   Needs jq, minisign, tar.
 #   GH_TOKEN   for `gh release download`
 # Output: <out>/{catalog.json,keys.json,keys.json.minisig,pkgs/*.rvp}; catalog.json is the unsigned
@@ -34,6 +35,14 @@ seq=$(date -u +%s)
 allow='["title","subtitle","description","icon","screenshots","permissions","changes","devOnly"]'
 : >"$tmp/entries.jsonl"
 seen=" "
+
+# dev build: each dev.list line replaces the catalog.list line of the same repo, or is added
+if [ -n "${DEV_LIST-}" ]; then
+    awk 'FNR == NR { if (NF && $1 !~ /^#/) { r = $1; sub(/@.*/, "", r); dev[r] = 1 }; next }
+         { r = $1; sub(/@.*/, "", r); if (!(r in dev)) print }' "$DEV_LIST" "$list" >"$tmp/list"
+    cat "$DEV_LIST" >>"$tmp/list"
+    list=$tmp/list
+fi
 
 while read -r spec sha rest || [ -n "$spec" ]; do
     case "$spec" in ''|'#'*) continue ;; esac
