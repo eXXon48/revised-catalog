@@ -1,0 +1,5 @@
+{
+  "title": "Speed-up",
+  "subtitle": "Faster screen changes and lighter GUI logging.",
+  "description": "Shortens the HMI screen-change animations (one setting, 50-800 ms; 600 = stock) and raises the GUI log level so fewer log calls reach the native logger. Nothing is written to stock files: uninstall and an HMI restart bring the stock behaviour back."
+}
