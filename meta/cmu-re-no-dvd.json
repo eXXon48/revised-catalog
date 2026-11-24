@@ -1,0 +1,5 @@
+{
+  "title": "No DVD",
+  "subtitle": "DVD service off, for cars without a player.",
+  "description": "Turns off the DVD service (jcidvd) for units without a DVD player, and MMUI no longer loads its screen module. Uninstall and restart to get the stock behaviour back."
+}

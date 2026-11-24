@@ -1,0 +1,5 @@
+{
+  "title": "No CD",
+  "subtitle": "CD service off, for cars without a drive.",
+  "description": "Turns off the CD service (jciCD) for cars without a CD drive. MMUI no longer waits for it at start-up; its CD screen waits for the service by itself. Uninstall and restart to get the stock behaviour back."
+}

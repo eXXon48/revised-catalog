@@ -1,0 +1,5 @@
+{
+  "title": "No Stitcher",
+  "subtitle": "Stitcher off at boot and out of the menu.",
+  "description": "Turns off Stitcher: its service (blm_ira_stitcher) and backend (irsstitcher_server) do not start at boot, MMUI no longer loads its screen module, and the Stitcher entry leaves the Entertainment list. Uninstall and restart to get the stock behaviour back."
+}

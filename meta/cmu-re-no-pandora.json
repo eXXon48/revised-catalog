@@ -1,0 +1,5 @@
+{
+  "title": "No Pandora",
+  "subtitle": "Pandora off at boot.",
+  "description": "Turns off Pandora: its service (blm_ira_pandora) and backend (irs_server) do not start at boot, and MMUI no longer loads its screen module. Uninstall and restart to get the stock behaviour back."
+}

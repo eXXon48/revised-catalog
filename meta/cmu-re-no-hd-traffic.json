@@ -1,0 +1,5 @@
+{
+  "title": "No HD Radio traffic",
+  "subtitle": "No HD Radio traffic-image module.",
+  "description": "MMUI no longer loads the HD Radio traffic-image screen module (hdtrafficimage), which is US-only. Uninstall and restart to get the stock behaviour back."
+}
