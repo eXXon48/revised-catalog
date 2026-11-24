@@ -1,0 +1,5 @@
+{
+  "title": "Skip disclaimer",
+  "subtitle": "No 3.5 s disclaimer wait at start-up.",
+  "description": "Answers the start-up safety disclaimer at once, so it is never painted and the Home screen comes sooner. Uninstall and restart to get the stock behaviour back."
+}

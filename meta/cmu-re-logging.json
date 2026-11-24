@@ -1,0 +1,5 @@
+{
+  "title": "Logging",
+  "subtitle": "Choose the JCI log level; Warn by default.",
+  "description": "Sets the log level of the JCI services (Info, Warn or Error). Warn writes about a tenth of the boot log lines of Info, so boot is faster. Takes effect after a restart. Uninstall and restart to get the stock behaviour back."
+}

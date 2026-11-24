@@ -1,0 +1,5 @@
+{
+  "title": "Speed-up boot max",
+  "subtitle": "Speed-up boot plus every unused service off.",
+  "description": "Meta package: the boot speed-up set plus every unused service off (streaming, HD Radio traffic, DVD, TV, CD)."
+}

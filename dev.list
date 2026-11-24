@@ -15,3 +15,11 @@ eXXon48/cmu-re-no-pandora@dev/v0.6.0 3dd665a9ead6c8f8bbb501ce8d0040747fd98b3606b
 eXXon48/cmu-re-no-siriusxm@dev/v0.6.0 11283a9b72765334bb42b05e72ad8d6181a0d28561b0fb7f7d2257fa9fd83c99
 eXXon48/cmu-re-no-stitcher@dev/v0.6.0 2ff0d8dc76c887fd3ed40cfb71f34ac9e12560cdf7c51208288b6286b2759833
 eXXon48/cmu-re-no-tv@dev/v0.6.0 374930dff0c1eb855bc129f137a6925a6e02e29a58a4390d75ff9f281c1b1104
+eXXon48/cmu-re-skip-disclaimer@dev/v0.6.0 2c33ddc3384be7083ecaf5ea83f953ebce11c647a0f62caa2757efb6833524f3
+eXXon48/cmu-re-gui-ws-fix@dev/v0.6.0 0395291cc9346f1dbc2028107131507f49d5ac92b5f6de4adb3fb17f6070e5c2
+eXXon48/cmu-re-gst-registry@dev/v0.6.0 5b9b8961e87863fd9a755aaa8825e8b2a50b3eccb70c25026d7be3481cb7f906
+eXXon48/cmu-re-no-sm-pause@dev/v0.6.0 ff754a617ed0fc0d5cfdc227c25cec6300a09f74ae8a9b32c56993f4d4dec175
+eXXon48/cmu-re-logging@dev/v0.6.0 a21b4a45be67053f430c1291f0855f5c5d50e9a8c29ff50d9e845dc7e8182ea4
+eXXon48/cmu-re-no-streaming@dev/v0.6.0 3dd8eee7b2082db488239c795a508db1c4471bcf7f632be1a8b15d423d5ed5b1
+eXXon48/cmu-re-speedup-boot@dev/v0.6.0 7dbb219ecaa3dcdaa7ae58d75c386eacd8a40bd339224c68da67b00fd87b2c20
+eXXon48/cmu-re-speedup-boot-max@dev/v0.6.0 ad8149b7398bea029e4aa7772b422029b22fc7252ce12ae7b78adb009a70580b
