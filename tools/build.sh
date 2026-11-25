@@ -83,10 +83,11 @@ while read -r spec sha rest || [ -n "$spec" ]; do
 
     # entry = manifest fields + url/size/hash, then allowlisted meta/<name>.json overrides
     size=$(wc -c <"$out/$rvp" | tr -d ' ')
-    jq -c --arg url "$rvp" --argjson size "$size" --arg h "$(cat "$tmp/c.hash")" '{
+    # source = the GitHub repo the release came from: every free package links its code
+    jq -c --arg url "$rvp" --argjson size "$size" --arg h "$(cat "$tmp/c.hash")" --arg src "https://github.com/$gh_repo" '{
         name, version, title: .name, subtitle: (.description // ""), author: (.author // ""),
         category: (.category // ""), targetCMU, depends: (.depends // ""), conflicts: (.conflicts // ""),
-        url: $url, size: $size, core_blake2b: $h}' "$tmp/manifest.json" >"$tmp/base.json"
+        url: $url, size: $size, core_blake2b: $h, source: $src}' "$tmp/manifest.json" >"$tmp/base.json"
     meta=$repo/meta/$name.json
     if [ -f "$meta" ]; then
         jq -e --argjson ok "$allow" 'type == "object" and ((keys - $ok) | length == 0)' "$meta" >/dev/null \
