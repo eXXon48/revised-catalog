@@ -1,0 +1,6 @@
+{
+  "title": "Screen recorder",
+  "subtitle": "For app developers only.",
+  "description": "Records the car screen at 24 frames per second as H.264 video, over SSH or to a file. The video hardware does the work, so the system does not slow down. Normal drivers do not need it.",
+  "devOnly": true
+}
