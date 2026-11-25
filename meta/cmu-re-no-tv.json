@@ -1,5 +1,5 @@
 {
-  "title": "No TV",
-  "subtitle": "TV service off, for cars without a tuner.",
-  "description": "Turns off the TV service (jcitv) for units without a TV tuner, and MMUI no longer loads its screen module. Uninstall and restart to get the stock behaviour back."
+  "title": "Remove TV",
+  "subtitle": "For cars without a TV tuner.",
+  "description": "If your car has no TV tuner (most do not), the system still starts the TV program at every start. This app turns it off. To undo it, remove it in the Store and restart the car's screen."
 }

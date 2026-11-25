@@ -1,5 +1,5 @@
 {
-  "title": "No SiriusXM",
-  "subtitle": "SiriusXM off (North America only).",
-  "description": "Turns off SiriusXM (US-only satellite radio): the module service (jciSXMS) and the manager (jciXMMGR) do not start at boot, and MMUI no longer loads the satradio, xmaudio and xmdata screen modules. Uninstall and restart to get the stock behaviour back."
+  "title": "Remove SiriusXM",
+  "subtitle": "Turns off SiriusXM satellite radio (North America only).",
+  "description": "SiriusXM is a satellite radio service available only in North America. Outside it, or if you do not subscribe, this app turns it off so it does not start every time. To undo it, remove it in the Store and restart the car's screen."
 }

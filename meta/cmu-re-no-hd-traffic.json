@@ -1,5 +1,5 @@
 {
-  "title": "No HD Radio traffic",
-  "subtitle": "No HD Radio traffic-image module.",
-  "description": "MMUI no longer loads the HD Radio traffic-image screen module (hdtrafficimage), which is US-only. Uninstall and restart to get the stock behaviour back."
+  "title": "Remove HD Radio traffic",
+  "subtitle": "Drops a US-only traffic map screen.",
+  "description": "The system loads a screen for HD Radio traffic maps, a service that exists only in the US. This app stops loading it. To undo it, remove it in the Store and restart the car's screen."
 }

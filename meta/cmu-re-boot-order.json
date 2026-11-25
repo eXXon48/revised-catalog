@@ -1,5 +1,5 @@
 {
-  "title": "Boot order",
-  "subtitle": "Service start order for a sooner Home, AA and CarPlay.",
-  "description": "Reorders the service start so the Home screen, Android Auto and CarPlay come sooner: the update and resource services Android Auto needs start early, Android Auto no longer waits for Bluetooth, MMUI no longer waits for the radio and AUX services, navigation starts after CarPlay, and diagnostics, the display link, USB music, DAB and AUX start after the Home screen. The device manager and Android Auto run on the second CPU core, which has spare time during boot. Uninstall and restart to get the stock behaviour back."
+  "title": "Faster start-up order",
+  "subtitle": "Home screen, Android Auto and CarPlay ready sooner.",
+  "description": "When you start the car, the system launches dozens of background programs in a fixed order, and many of them wait for each other for no good reason. This app reorders them: the things you use first (Home screen, Android Auto, CarPlay) start first, and rarely used ones (diagnostics, USB music, DAB, AUX) start after the Home screen is up. To undo it, remove it in the Store and restart the car's screen."
 }

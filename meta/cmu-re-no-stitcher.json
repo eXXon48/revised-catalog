@@ -1,5 +1,5 @@
 {
-  "title": "No Stitcher",
-  "subtitle": "Stitcher off at boot and out of the menu.",
-  "description": "Turns off Stitcher: its service (blm_ira_stitcher) and backend (irsstitcher_server) do not start at boot, MMUI no longer loads its screen module, and the Stitcher entry leaves the Entertainment list. Uninstall and restart to get the stock behaviour back."
+  "title": "Remove Stitcher",
+  "subtitle": "Turns off the discontinued Stitcher podcast app.",
+  "description": "Stitcher was a podcast service that has been shut down, but the car still starts it and shows it in the Entertainment menu. This app turns it off and removes it from the menu. To undo it, remove it in the Store and restart the car's screen."
 }

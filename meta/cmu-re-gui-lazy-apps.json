@@ -1,5 +1,5 @@
 {
-  "title": "GUI lazy apps",
-  "subtitle": "Data-only GUI apps load after the Home screen.",
-  "description": "The HMI loads the scripts of data-only apps (favorites, network, AM radio, CD, eco energy, DAB, tutorial, system update) after the Home screen instead of before it. Any screen or alert for one of them loads it at once. Uninstall and restart to get the stock behaviour back."
+  "title": "Lighter screen start-up",
+  "subtitle": "Rarely used screens load later, the Home screen sooner.",
+  "description": "Before showing the Home screen, the system loads screens most people rarely open (favorites, network, AM radio, CD, eco energy, DAB, tutorial, system update). This app loads them right after the Home screen instead. If you open one of them, it loads at once. To undo it, remove it in the Store and restart the car's screen."
 }

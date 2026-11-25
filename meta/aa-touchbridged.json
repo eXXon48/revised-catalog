@@ -1,1 +1,5 @@
-{ "title": "Android Auto Touch" }
+{
+  "title": "Android Auto Touch",
+  "subtitle": "Use the touchscreen in Android Auto.",
+  "description": "Out of the box, Android Auto on this Mazda can only be driven with the control knob: tapping the screen does nothing. This app passes your taps and swipes on the screen to Android Auto, so maps, music and messages work by touch, like on a phone. To undo it, remove it in the Store and restart the car's screen."
+}

@@ -1,1 +1,5 @@
-{ "title": "Revised Store" }
+{
+  "title": "Revised Store",
+  "subtitle": "The app store itself, on your car's screen.",
+  "description": "The Store you install everything else with. It runs on the car's screen: browse apps, install, update and remove them, and get your car back to stock."
+}

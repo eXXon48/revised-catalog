@@ -1,1 +1,5 @@
-{ "title": "Root certificates" }
+{
+  "title": "Security certificates",
+  "subtitle": "Lets the car make secure internet connections.",
+  "description": "To check that a website or server is genuine, a device needs an up-to-date list of trusted certificates, like the one your phone or browser has. The car's list is from 2012 and in the wrong place. This app installs a current one. Needs Correct clock too. No restart needed."
+}

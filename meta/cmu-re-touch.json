@@ -1,5 +1,5 @@
 {
   "title": "ReTouch",
-  "subtitle": "Keeps the touchscreen working while the car moves. Removes the driver-distraction protection: use at your own risk.",
-  "description": "Keeps the touchscreen working while the car moves. It comments out the Global.AtSpeed handler in Common.js and sets the NVRAM keys bus_bcm_speed_restriction and lvds_speed_restriction to disable; uninstall puts the previous values back. WARNING: this mod removes the driver-distraction protection. You use it at your own risk; no claims are accepted. Idea from the MZD-AIO touchscreen tweak and TouchTune."
+  "subtitle": "Touchscreen keeps working while you drive. Use at your own risk.",
+  "description": "Normally the touchscreen stops working once the car moves, and you have to use the control knob. This app keeps the touchscreen on while driving. WARNING: it removes a safety feature meant to limit distraction. You use it at your own risk and are responsible for driving safely; no claims are accepted. Remove it in the Store to restore the stock behaviour."
 }

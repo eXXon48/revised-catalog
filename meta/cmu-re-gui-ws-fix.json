@@ -1,5 +1,5 @@
 {
-  "title": "GUI WebSocket fix",
-  "subtitle": "Stops a TypeError the stock HMI logs on every message.",
-  "description": "The stock HMI message handler calls _isStack and _delStack as methods, but they are plain functions, so every call throws a TypeError into the log. This makes them methods of Websockets. Uninstall and restart to get the stock behaviour back."
+  "title": "Screen error fix",
+  "subtitle": "Fixes a bug that fills the log with errors.",
+  "description": "The stock screen software has a small programming mistake that writes an error to the system log for almost every message it handles. This app fixes it, so the system does less useless work. To undo it, remove it in the Store and restart the car's screen."
 }

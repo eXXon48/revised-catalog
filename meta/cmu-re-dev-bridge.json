@@ -1,1 +1,6 @@
-{ "title": "Developer bridge", "devOnly": true }
+{
+  "title": "Developer bridge",
+  "devOnly": true,
+  "subtitle": "For app developers only.",
+  "description": "A tool for people who build apps for the Store: it lets a developer's computer talk to the car's screen while testing. Normal drivers do not need it."
+}

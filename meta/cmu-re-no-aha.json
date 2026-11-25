@@ -1,5 +1,5 @@
 {
-  "title": "No Aha",
-  "subtitle": "Aha and its backend off, stage order kept.",
-  "description": "Turns off Aha: its service (blm_ira_aha) and the OffBoard backend (offboard_service, used only by Aha) do not start at boot, and MMUI no longer loads its screen module. The Wi-Fi, voice and gap2 stages, which waited for Aha only as an 'after the IR stage' marker, wait for the IR stage itself. Uninstall and restart to get the stock behaviour back."
+  "title": "Remove Aha",
+  "subtitle": "Turns off the discontinued Aha radio service.",
+  "description": "Aha was an internet radio service that no longer exists, but the car still starts it every time. This app turns it off, which frees memory and makes start-up a little faster. To undo it, remove it in the Store and restart the car's screen."
 }

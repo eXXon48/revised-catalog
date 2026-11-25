@@ -1,5 +1,5 @@
 {
-  "title": "Logging",
-  "subtitle": "Choose the JCI log level; Warn by default.",
-  "description": "Sets the log level of the JCI services (Info, Warn or Error). Warn writes about a tenth of the boot log lines of Info, so boot is faster. Takes effect after a restart. Uninstall and restart to get the stock behaviour back."
+  "title": "Less logging",
+  "subtitle": "The system writes fewer log messages, so it starts faster.",
+  "description": "The car's computer keeps a very detailed diary of everything it does, and writing it slows start-up down. This app makes the diary shorter (only warnings by default; you can choose). It takes effect after a restart. To undo it, remove it in the Store and restart the car's screen."
 }

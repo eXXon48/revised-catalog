@@ -1,5 +1,5 @@
 {
-  "title": "Speed-up boot",
-  "subtitle": "The boot speed-up set, no feature off.",
-  "description": "Meta package: the boot speed-up set (boot order, lazy GUI apps, no disclaimer, GUI WebSocket fix, GStreamer registry, no SM pause, logging at Warn)."
+  "title": "Faster start-up",
+  "subtitle": "All start-up speed-ups in one go, no feature removed.",
+  "description": "A bundle: installs every start-up speed-up together (start-up order, lighter screen start-up, skip disclaimer, screen error fix, faster Android Auto start, no start-up pause, less logging). Nothing you use is turned off."
 }

@@ -1,5 +1,5 @@
 {
-  "title": "No streaming",
-  "subtitle": "Pandora, Stitcher, Aha and SiriusXM off.",
-  "description": "Meta package: turns off Pandora, Stitcher, Aha and SiriusXM."
+  "title": "Remove streaming apps",
+  "subtitle": "Removes Pandora, Stitcher, Aha and SiriusXM in one go.",
+  "description": "A bundle: installs Remove Pandora, Remove Stitcher, Remove Aha and Remove SiriusXM together. Handy if you use Android Auto or CarPlay for music anyway."
 }

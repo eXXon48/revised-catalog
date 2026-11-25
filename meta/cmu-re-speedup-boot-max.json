@@ -1,5 +1,5 @@
 {
-  "title": "Speed-up boot max",
-  "subtitle": "Speed-up boot plus every unused service off.",
-  "description": "Meta package: the boot speed-up set plus every unused service off (streaming, HD Radio traffic, DVD, TV, CD)."
+  "title": "Faster start-up (max)",
+  "subtitle": "Everything in Faster start-up, plus all unused features off.",
+  "description": "A bundle: everything in Faster start-up, plus the apps that turn off features most cars do not use (streaming apps, HD Radio traffic, DVD, TV, CD). Do not install it if your car has a CD drive, a DVD player or a TV tuner you use."
 }

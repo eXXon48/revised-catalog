@@ -1,1 +1,6 @@
-{ "title": "Developer SSH", "devOnly": true }
+{
+  "title": "Developer SSH",
+  "devOnly": true,
+  "subtitle": "For app developers only.",
+  "description": "Lets a developer log in to the car's computer over the network to test and debug apps. Normal drivers do not need it, and it should not stay installed in a car in daily use."
+}
