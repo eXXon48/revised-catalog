@@ -9,7 +9,7 @@
 #   ROOT_PUB   root public key file for the final check (default: trust/root.pub)
 #   DEV_LIST   dev build only: file whose lines override catalog.list per repo (dev.list)
 #   Needs jq, minisign, tar.
-#   GH_TOKEN   for `gh release download`
+#   GH_TOKEN   for `gh release download` and the change notes (tools/notes.sh)
 # Output: <out>/{catalog.json,keys.json,keys.json.minisig,pkgs/*.rvp}; catalog.json is the unsigned
 # release list tools/publish.sh registers with the api (units never read it)
 # Any failed check aborts (set -e); nothing is half-published because CI only uploads on success.
@@ -88,6 +88,9 @@ while read -r spec sha rest || [ -n "$spec" ]; do
         name, version, title: .name, subtitle: (.description // ""), author: (.author // ""),
         category: (.category // ""), targetCMU, depends: (.depends // ""), conflicts: (.conflicts // ""),
         url: $url, size: $size, core_blake2b: $h, source: $src}' "$tmp/manifest.json" >"$tmp/base.json"
+    # change notes from git: changes = this version's, history = the older versions' (tools/notes.sh)
+    sh "$repo/tools/notes.sh" "$gh_repo" "$tag" >"$tmp/notes.json" || echo '{"changes":[],"history":[]}' >"$tmp/notes.json"
+    jq -cs '.[0] + .[1]' "$tmp/base.json" "$tmp/notes.json" >"$tmp/b2" && mv "$tmp/b2" "$tmp/base.json"
     meta=$repo/meta/$name.json
     if [ -f "$meta" ]; then
         jq -e --argjson ok "$allow" 'type == "object" and ((keys - $ok) | length == 0)' "$meta" >/dev/null \

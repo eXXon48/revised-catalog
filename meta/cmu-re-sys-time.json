@@ -1,5 +1,5 @@
 {
   "title": "Correct clock",
   "subtitle": "The car's computer knows the real date and time.",
-  "description": "The car's computer thinks it is 1970 every time it starts, even though it has a working clock inside. This app sets the right date and time at start-up. Secure internet connections and correct file dates need it. It also fixes a stock bug that shows up once the clock is right: time and time-zone changes in Settings were being lost. To undo it, remove it in the Store and restart the car's screen."
+  "description": "The car's computer thinks it is 1970 every time it starts, even though it has a working clock inside. This app sets the right date and time at start-up. Secure internet connections and correct file dates need it. It also fixes a stock bug that shows up once the clock is right: time and time-zone changes in Settings were being lost."
 }

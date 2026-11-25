@@ -1,5 +1,5 @@
 {
   "title": "Remove start-up pause",
   "subtitle": "Removes a needless 1-second wait at start-up.",
-  "description": "During start-up the system simply waits one second before launching its programs. This app removes that wait. To undo it, remove it in the Store and restart the car's screen."
+  "description": "During start-up the system simply waits one second before launching its programs. This app removes that wait."
 }

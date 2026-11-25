@@ -1,5 +1,5 @@
 {
   "title": "Faster start-up order",
   "subtitle": "Home screen, Android Auto and CarPlay ready sooner.",
-  "description": "When you start the car, the system launches dozens of background programs in a fixed order, and many of them wait for each other for no good reason. This app reorders them: the things you use first (Home screen, Android Auto, CarPlay) start first, and rarely used ones (diagnostics, USB music, DAB, AUX) start after the Home screen is up. To undo it, remove it in the Store and restart the car's screen."
+  "description": "When you start the car, the system launches dozens of background programs in a fixed order, and many of them wait for each other for no good reason. This app reorders them: the things you use first (Home screen, Android Auto, CarPlay) start first, and rarely used ones (diagnostics, USB music, DAB, AUX) start after the Home screen is up."
 }

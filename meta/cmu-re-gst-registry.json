@@ -1,5 +1,5 @@
 {
   "title": "Faster Android Auto start",
   "subtitle": "Android Auto connects a bit quicker after start-up.",
-  "description": "Every time the car starts, the media system re-checks all of its audio and video components from scratch. This app makes it remember the result, so Android Auto is ready a little sooner. To undo it, remove it in the Store and restart the car's screen."
+  "description": "Every time the car starts, the media system re-checks all of its audio and video components from scratch. This app makes it remember the result, so Android Auto is ready a little sooner."
 }

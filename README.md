@@ -11,6 +11,8 @@ Catalog of CMU-Revised packages.
 
 Every entry gets `source`: the `https://github.com/<repo>` of its `catalog.list` line, so the Store links each package's code.
 
+Change notes come from git (`tools/notes.sh`): the commit subjects between neighbouring tags. A `changes` in meta overrides the current version's.
+
 Optional `meta/<name>.json` (a JSON object) overrides or adds only these entry fields: `title`, `subtitle`, `description`, `icon`, `screenshots`, `permissions`, `changes`, `devOnly` (boolean; true lists the package only in the store's Developer section and installs it only in developer mode). Any other key aborts the build.
 
 ## Dev and prod

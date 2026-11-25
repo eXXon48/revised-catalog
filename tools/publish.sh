@@ -34,7 +34,7 @@ jq -c '.packages[]' "$out/catalog.json" | while read -r e; do
     # ponytail: icon / screenshots not sent (no meta uses them yet); upload + prefix DL_BASE when one does
     body=$(printf '%s' "$e" | jq -c --arg u "$dl/$key" '{name, version, url: $u, size, core_blake2b, depends, conflicts,
         targetCMU, devOnly: (.devOnly // false), title, subtitle, category, author,
-        description: (.description // ""), permissions: (.permissions // []), changes: (.changes // [])} + (if .source then {source} else {} end)')
+        description: (.description // ""), permissions: (.permissions // []), changes: (.changes // []), history: (.history // [])} + (if .source then {source} else {} end)')
     code=$(curl -sS -o "$resp" -w '%{http_code}' -X POST -H "authorization: Bearer $CI_TOKEN" \
         -H 'content-type: application/json' --data "$body" "$API/ci/releases")
     case $code in

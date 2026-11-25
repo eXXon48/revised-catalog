@@ -1,5 +1,5 @@
 {
   "title": "Screen error fix",
   "subtitle": "Fixes a bug that fills the log with errors.",
-  "description": "The stock screen software has a small programming mistake that writes an error to the system log for almost every message it handles. This app fixes it, so the system does less useless work. To undo it, remove it in the Store and restart the car's screen."
+  "description": "The stock screen software has a small programming mistake that writes an error to the system log for almost every message it handles. This app fixes it, so the system does less useless work."
 }

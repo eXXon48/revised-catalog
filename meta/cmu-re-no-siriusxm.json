@@ -1,5 +1,5 @@
 {
   "title": "Remove SiriusXM",
   "subtitle": "Turns off SiriusXM satellite radio (North America only).",
-  "description": "SiriusXM is a satellite radio service available only in North America. Outside it, or if you do not subscribe, this app turns it off so it does not start every time. To undo it, remove it in the Store and restart the car's screen."
+  "description": "SiriusXM is a satellite radio service available only in North America. Outside it, or if you do not subscribe, this app turns it off so it does not start every time."
 }

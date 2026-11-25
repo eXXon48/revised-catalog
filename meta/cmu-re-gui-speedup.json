@@ -1,5 +1,5 @@
 {
   "title": "Snappier screens",
   "subtitle": "Shorter screen transition animations.",
-  "description": "Screen changes on the car's display come with slow animations. This app makes them shorter (you can choose how short) and makes the screen write fewer internal log messages, so menus feel quicker. To undo it, remove it in the Store and restart the car's screen."
+  "description": "Screen changes on the car's display come with slow animations. This app makes them shorter (you can choose how short) and makes the screen write fewer internal log messages, so menus feel quicker."
 }

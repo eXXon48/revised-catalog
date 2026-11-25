@@ -1,5 +1,5 @@
 {
   "title": "Remove Aha",
   "subtitle": "Turns off the discontinued Aha radio service.",
-  "description": "Aha was an internet radio service that no longer exists, but the car still starts it every time. This app turns it off, which frees memory and makes start-up a little faster. To undo it, remove it in the Store and restart the car's screen."
+  "description": "Aha was an internet radio service that no longer exists, but the car still starts it every time. This app turns it off, which frees memory and makes start-up a little faster."
 }
