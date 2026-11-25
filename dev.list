@@ -1,7 +1,7 @@
 # Dev overrides for catalog.list (used only on develop: dry-run + publish-dev).
 # Same format: repo@tag sha256. A line here replaces the catalog.list line of the same repo, or adds one.
 # The dev store build goes here, e.g.  eXXon48/cmu-re-store@dev/v0.7.0.1 <sha256 of its .rvp>
-eXXon48/cmu-re-store@dev/v0.13.5.0 341ad5e8162d6a66265a06e6d7a669ad62697b7c7e5c2fc2f9400432ca36be64
+eXXon48/cmu-re-store@dev/v0.13.6.0 16f6c3a1785de7c50c81234fe60a96addf662b1b7dc32ffc697eeecf490669e9
 eXXon48/cmu-re-dev-bridge@dev/v1.0.1 f140e4b6195dbdeec8265a1640c92ffb9117f14a5f811867aec682a72ad320ca
 eXXon48/cmu-re-gui-speedup@dev/v0.2.0 05d678107c3a8a632735d0191afc74c7b6a9ecc65a2075ec37b94021a4675a5f
 eXXon48/cmu-re-dev-ssh@dev/v1.3.0 911c1f89f524c7d79a04240ab27fa9d6a8a0706cad306d4c1566aba41b9f69b7
@@ -24,4 +24,4 @@ eXXon48/cmu-re-no-streaming@dev/v0.6.0 3dd8eee7b2082db488239c795a508db1c4471bcf7
 eXXon48/cmu-re-speedup-boot@dev/v0.6.0 7dbb219ecaa3dcdaa7ae58d75c386eacd8a40bd339224c68da67b00fd87b2c20
 eXXon48/cmu-re-speedup-boot-max@dev/v0.6.0 ad8149b7398bea029e4aa7772b422029b22fc7252ce12ae7b78adb009a70580b
 eXXon48/cmu-re-aa-touchbridged@dev/v5.0.1 dd4ff77177020aa1d9823cefc8ea0d2bdfc4da76a20be24e109efa8bb05f0954
-eXXon48/cmu-re-dev-screen-record@dev/v0.1.1 cdcc5ae95ff5082ff199e2447d6459686f51077c9337c56e9db989aeaa85701e
+eXXon48/cmu-re-dev-screen-record@dev/v0.1.2 b61fb8ab4b8830d40756bd5a06a89b6af326c60dd6964d1d408e26d6a6e269b4
