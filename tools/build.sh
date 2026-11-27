@@ -87,7 +87,9 @@ while read -r spec sha rest || [ -n "$spec" ]; do
     jq -c --arg url "$rvp" --argjson size "$size" --arg h "$(cat "$tmp/c.hash")" --arg src "https://github.com/$gh_repo" '{
         name, version, title: .name, subtitle: (.description // ""), author: (.author // ""),
         category: (.category // ""), targetCMU, depends: (.depends // ""), conflicts: (.conflicts // ""),
-        url: $url, size: $size, core_blake2b: $h, source: $src}' "$tmp/manifest.json" >"$tmp/base.json"
+        url: $url, size: $size, core_blake2b: $h, source: $src,
+        owns: ([.files[]? | select(.type=="modify" and .apply=="whole-file") | .live])}
+        | if .owns == [] then del(.owns) else . end' "$tmp/manifest.json" >"$tmp/base.json"
     # change notes from git: changes = this version's, history = the older versions' (tools/notes.sh)
     sh "$repo/tools/notes.sh" "$gh_repo" "$tag" >"$tmp/notes.json" || echo '{"changes":[],"history":[]}' >"$tmp/notes.json"
     jq -cs '.[0] + .[1]' "$tmp/base.json" "$tmp/notes.json" >"$tmp/b2" && mv "$tmp/b2" "$tmp/base.json"
